@@ -24,10 +24,11 @@ import { DatosConexion, GuardarDatos, Operaciones, PedirDatos } from 'conectar-s
 ```javascript
 import { PedirDatos, Operaciones } from 'conectar-sqlite';
 
-// Configurar datos de conexión interactivamente
+//configurar datos de conexión interactivamente
+//es mas sencillo tener la BD en la raiz del proyecto , asi llamas a la misma de ./miBD simple
 await PedirDatos();
 
-// Usar las operaciones
+//usar las operaciones
 const operaciones = new Operaciones();
 operaciones.comprobar();
 const conexion = operaciones.obtenerConexion();
@@ -38,10 +39,10 @@ const conexion = operaciones.obtenerConexion();
 ```javascript
 import { GuardarDatos, Operaciones } from 'conectar-sqlite';
 
-// Guardar configuración programáticamente
+//guardar configuración programáticamente
 await GuardarDatos('MiApp', 'MiAppDB.db', 'Respaldos', 'MiAppDB_Backup.db', './MiAppDB.db');
 
-// Usar las operaciones
+//usar las operaciones
 const operaciones = new Operaciones();
 operaciones.comprobar();
 const conexion = operaciones.obtenerConexion();
@@ -101,29 +102,29 @@ import { PedirDatos, Operaciones } from 'conectar-sqlite';
 
 async function main() {
     try {
-        // Verificar si existe configuración
+        //verificar si existe configuración
         if (!Operaciones.datosConexionExisten()) {
             console.log('Primera vez usando la librería, configurando...');
             await PedirDatos();
         }
         
-        // Crear instancia y usar
+        //crear instancia y usar
         const operaciones = new Operaciones();
         
-        // Verificar estructura de carpetas
+        //verifica estructura de carpetas 
         const estructuraOk = operaciones.comprobar();
         if (!estructuraOk) {
             throw new Error('Error al verificar estructura de carpetas');
         }
         
-        // Obtener conexión
+        //obtiene la conexion 
         const conexion = operaciones.obtenerConexion();
         console.log('Conexión obtenida exitosamente');
         
-        // Hacer operaciones con la base de datos...
-        // conexion.run("SELECT * FROM tabla", ...)
+        //desde este punto ya podes hacer las peticiones con la bd
+        //conexion.run("SELECT * FROM tabla", ...)
         
-        // Cerrar conexión
+        //se cierra la conexion automaticamente pero por las dudas ingresar conexion.close
         conexion.close();
         
     } catch (error) {
