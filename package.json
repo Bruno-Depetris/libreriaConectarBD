@@ -36,12 +36,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tuusuario/conectar-sqlite.git"
+    "url": "git+https://github.com/Bruno-Depetris/libreriaConectarBD"
   },
   "bugs": {
-    "url": "https://github.com/tuusuario/conectar-sqlite/issues"
+    "url": "https://github.com/Bruno-Depetris/libreriaConectarBD"
   },
-  "homepage": "https://github.com/tuusuario/conectar-sqlite#readme",
+  "homepage": "https://github.com/Bruno-Depetris/libreriaConectarBD",
   "dependencies": {
     "prompt-sync": "^4.2.0",
     "sqlite3": "^5.1.7"

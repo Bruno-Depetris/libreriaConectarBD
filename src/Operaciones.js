@@ -4,19 +4,43 @@ import os from "os";
 import sqlite3Pkg from 'sqlite3';
 const sqlite3 = sqlite3Pkg.verbose();
 
-const archivo = path.join(process.cwd(), "datosConexion.json"); 
-const datosJSON = fs.readFileSync(archivo, "utf-8");
-const datos = JSON.parse(datosJSON);
-
 export class Operaciones {
 
     constructor() {
-        this.carpetaAppdata = datos.carpetaAppdata;
-        this.nombreBD = datos.nombreBD;
-        this.carpetaBackUp = datos.carpetaBackUp;
-        this.backupBD = datos.backupBD;
-        this.pathBDmain = datos.pathBDmain;
+        this.carpetaAppdata = null;
+        this.nombreBD = null;
+        this.carpetaBackUp = null;
+        this.backupBD = null;
+        this.pathBDmain = null;
         this.baseDatos = null;
+        this.datosConexionCargados = false;
+    }
+
+    // Método privado para cargar los datos de conexión
+    _cargarDatosConexion() {
+        if (this.datosConexionCargados) {
+            return; // Ya están cargados
+        }
+
+        const archivo = path.join(process.cwd(), "datosConexion.json");
+        
+        if (!fs.existsSync(archivo)) {
+            throw new Error(`El archivo datosConexion.json no existe. Ejecuta primero PedirDatos() para crearlo.`);
+        }
+
+        try {
+            const datosJSON = fs.readFileSync(archivo, "utf-8");
+            const datos = JSON.parse(datosJSON);
+            
+            this.carpetaAppdata = datos.carpetaAppdata;
+            this.nombreBD = datos.nombreBD;
+            this.carpetaBackUp = datos.carpetaBackUp;
+            this.backupBD = datos.backupBD;
+            this.pathBDmain = datos.pathBDmain;
+            this.datosConexionCargados = true;
+        } catch (error) {
+            throw new Error(`Error al leer datosConexion.json: ${error.message}`);
+        }
     }
 
     getAppDataPath(appName) {
@@ -35,6 +59,9 @@ export class Operaciones {
     }
 
     comprobar() {
+        // Cargar datos de conexión antes de usarlos
+        this._cargarDatosConexion();
+
         try {
             if (!fs.existsSync(this.carpetaAppdata)) {
                 fs.mkdirSync(this.carpetaAppdata, { recursive: true });
@@ -56,6 +83,9 @@ export class Operaciones {
     }
 
     obtenerConexion() {
+        // Cargar datos de conexión antes de usarlos
+        this._cargarDatosConexion();
+
         try {
             const cadenaConexion = path.join(this.carpetaAppdata, this.nombreBD);
             const conexion = new sqlite3.Database(cadenaConexion, (err) => {
@@ -69,5 +99,11 @@ export class Operaciones {
             console.error(`Error al obtener la conexión: ${error.message}`);
             throw error;
         }
+    }
+
+    // Método para verificar si los datos de conexión existen
+    static datosConexionExisten() {
+        const archivo = path.join(process.cwd(), "datosConexion.json");
+        return fs.existsSync(archivo);
     }
 }
