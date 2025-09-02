@@ -1,0 +1,52 @@
+{
+  "name": "conectar-sqlite",
+  "version": "1.0.2",
+  "description": "Librería para gestionar SQLite y respaldos de bases de datos",
+  "main": "main.js",
+  "module": "main.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./main.js",
+      "require": "./main.js"
+    },
+    "./main": "./main.js",
+    "./src/*": "./src/*.js"
+  },
+  "files": [
+    "main.js",
+    "index.js",
+    "src/",
+    "README.md",
+    "package.json"
+  ],
+  "scripts": {
+    "test": "node main.js",
+    "demo": "node -e \"import('./main.js').then(lib => console.log('Librería cargada:', Object.keys(lib)))\""
+  },
+  "keywords": [
+    "sqlite",
+    "database",
+    "backup",
+    "nodejs",
+    "conexion",
+    "datos"
+  ],
+  "author": "BrunoDepetris",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tuusuario/conectar-sqlite.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tuusuario/conectar-sqlite/issues"
+  },
+  "homepage": "https://github.com/tuusuario/conectar-sqlite#readme",
+  "dependencies": {
+    "prompt-sync": "^4.2.0",
+    "sqlite3": "^5.1.7"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
